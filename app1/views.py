@@ -9,6 +9,7 @@ from .models import Employee, Attendance, CameraConfiguration
 from django.core.files.base import ContentFile
 from datetime import datetime, timedelta
 from django.utils import timezone
+import pygame  # Import pygame for playing sounds
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -31,20 +32,9 @@ _employee_cache = {}
 _cache_timestamp = None
 _cache_validity = 300  # 5 minutes cache validity
 
-# Initialize MTCNN and InceptionResnetV1 to None for lazy loading
-mtcnn = None
-resnet = None
-
-def get_models():
-    """Lazy load the MTCNN and InceptionResnetV1 models."""
-    global mtcnn, resnet
-    if mtcnn is None:
-        print("Loading MTCNN model...")
-        mtcnn = MTCNN(keep_all=True, device='cpu', min_face_size=60)
-    if resnet is None:
-        print("Loading InceptionResnetV1 model...")
-        resnet = InceptionResnetV1(pretrained='vggface2').eval()
-    return mtcnn, resnet
+# Initialize MTCNN and InceptionResnetV1
+mtcnn = MTCNN(keep_all=True, device='cpu', min_face_size=60)  # Optimize for performance
+resnet = InceptionResnetV1(pretrained='vggface2').eval()
 
 def get_cached_face_data():
     """Get cached face encodings and employee data with automatic refresh"""
@@ -125,7 +115,6 @@ def test_camera(camera_source):
 
 # Function to detect and encode faces
 def detect_and_encode(image):
-    mtcnn, resnet = get_models()  # Lazy load models
     try:
         with torch.no_grad():
             detection_result = mtcnn.detect(image)
@@ -244,13 +233,6 @@ def capture_and_recognize(request):
     camera_windows = []  # List to store window names
     error_messages = []  # List to capture errors from threads
 
-    # Lazy load models before starting threads
-    try:
-        get_models()
-    except Exception as e:
-        messages.error(request, f"Failed to load face recognition models: {e}")
-        return redirect('dashboard') # Or some other appropriate page
-
     def process_frame(cam_config, stop_event):
         """Thread function to capture and process frames for each camera."""
         cap = None
@@ -320,6 +302,10 @@ def capture_and_recognize(request):
                 time.sleep(0.1)  # Small delay between test frames
 
             threshold = cam_config.threshold
+
+            # Initialize pygame mixer for sound playback
+            pygame.mixer.init()
+            success_sound = pygame.mixer.Sound('app1/suc.wav')  # Load sound path
 
             window_name = f'Face Recognition - {cam_config.name}'
             camera_windows.append(window_name)  # Track the window name
@@ -419,7 +405,7 @@ def capture_and_recognize(request):
                                                             
                                                             if created:
                                                                 attendance.mark_check_in()
-                                                                
+                                                                success_sound.play()
                                                                 print(f"Attendance marked: {name} checked in at {current_django_time}")
                                                                 # Draw background rectangle for better text visibility
                                                                 cv2.rectangle(frame, (40, 30), (400, 80), (0, 0, 0), -1)
@@ -431,7 +417,7 @@ def capture_and_recognize(request):
                                                                     time_diff = current_django_time - attendance.check_in_time
                                                                     if time_diff.total_seconds() > 60:  # 1 minute after check-in
                                                                         attendance.mark_check_out()
-                                                                        
+                                                                        success_sound.play()
                                                                         print(f"Attendance marked: {name} checked out at {current_django_time}")
                                                                         # Draw background rectangle for better text visibility
                                                                         cv2.rectangle(frame, (40, 30), (400, 80), (0, 0, 0), -1)
