@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Occurred</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8d7da;
+            color: #721c24;
+            text-align: center;
+            padding: 50px;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image: linear-gradient(to right, #f8d7da, #f1b0b0);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        p {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+            background-color: #0056b3;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+            margin: 10px;
+        }
+        a:hover {
+            background-color: #004494;
+        }
+        .suggestion {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+        .suggestion h2 {
+            color: #721c24;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            font-size: 1.1em;
+            margin: 8px 0;
+            text-align: left;
+            padding-left: 20px;
+            position: relative;
+        }
+        ul li:before {
+            content: "•";
+            color: #721c24;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        .error-details {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 0.9em;
+            text-align: left;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+        .action-buttons {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>An Error Occurred</h1>
+    
+    {% if error_message %}
+        <div class="error-details">
+            <strong>Error Details:</strong><br>
+            {{ error_message }}
+        </div>
+    {% endif %}
+    
+    <div class="suggestion">
+        <h2>Suggested Fixes:</h2>
+        
+        {% if "list index out of range" in error_message %}
+            <p><strong>Face Recognition Error:</strong> This error typically occurs when there are issues with face data processing.</p>
+            <ul>
+                <li>Ensure at least one employee is authorized and has face data uploaded</li>
+                <li>Check that employee photos are properly uploaded in the admin panel</li>
+                <li>Verify that the face detection model is working correctly</li>
+                <li>Try restarting the application and camera</li>
+                <li>Check if the camera is properly connected and accessible</li>
+            </ul>
+        {% elif "No camera configurations found" in error_message %}
+            <p><strong>Camera Configuration Error:</strong> No cameras are configured in the system.</p>
+            <ul>
+                <li>Go to Admin Panel → Camera Configurations</li>
+                <li>Add at least one camera configuration</li>
+                <li>Set the correct camera source (0 for built-in, IP for network cameras)</li>
+                <li>Configure the camera name and settings</li>
+            </ul>
+        {% elif "No authorized employees found" in error_message %}
+            <p><strong>Employee Authorization Error:</strong> No employees are authorized for face recognition.</p>
+            <ul>
+                <li>Go to Admin Panel → Employees</li>
+                <li>Authorize at least one employee by setting "Is Active" to True</li>
+                <li>Upload employee photos for face recognition</li>
+                <li>Ensure employee data is complete</li>
+            </ul>
+        {% elif "camera" in error_message|lower %}
+            <p><strong>Camera Access Error:</strong> There's an issue with camera access.</p>
+            <ul>
+                <li>Ensure that the camera is connected properly</li>
+                <li>Check the IP address and port settings in the camera configuration</li>
+                <li>Make sure the camera is powered on and accessible from your network</li>
+                <li>Verify that the required permissions are granted to access the camera</li>
+                <li>Try using a different camera source (0, 1, 2, etc.)</li>
+                <li>Consult the camera's manual for troubleshooting steps</li>
+            </ul>
+        {% else %}
+            <p><strong>General System Error:</strong> An unexpected error occurred.</p>
+            <ul>
+                <li>Check that all required dependencies are installed</li>
+                <li>Verify that the database is properly configured</li>
+                <li>Ensure all required files and models are present</li>
+                <li>Try restarting the application</li>
+                <li>Check the console/logs for more detailed error information</li>
+            </ul>
+        {% endif %}
+    </div>
+    
+    <div class="action-buttons">
+        <a href="{% url 'home' %}">Return to Home</a>
+        <a href="{% url 'camera_config_list' %}">Camera Settings</a>
+        <a href="{% url 'employee_list' %}">Employee Management</a>
+    </div>
+</body>
+</html>

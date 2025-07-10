@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Employee Profile | LokNetra{% endblock %}
+{% block content %}
+<div class="row justify-content-center mb-4">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body text-center">
+        <img src="{{ emp.profile_picture.url if emp.profile_picture else '/static/default_profile.png' }}" class="rounded-circle mb-3" style="width:100px;height:100px;object-fit:cover;">
+        <h3 class="card-title mb-0">{{ emp.name }}</h3>
+        <div class="mb-2 text-muted">{{ emp.designation }} | {{ emp.department }}</div>
+        <span class="badge {{ 'bg-success' if emp.is_active else 'bg-secondary' }} mb-2">{{ 'Active' if emp.is_active else 'Inactive' }}</span>
+        <div class="mb-2">
+          <i class="fas fa-envelope me-1"></i> {{ emp.email }}<br>
+          <i class="fas fa-phone me-1"></i> {{ emp.phone_number }}
+        </div>
+        <a href="/emp_edit/{{ emp.id }}/" class="btn btn-warning btn-sm me-2"><i class="fas fa-edit"></i> Edit</a>
+        <a href="/emp_delete_confirm/{{ emp.id }}/" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row justify-content-center">
+  <div class="col-md-10">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-calendar-check me-2"></i>Recent Attendance
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-striped mb-0">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+                <th>Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for att in recent_attendance %}
+              <tr>
+                <td>{{ att.date }}</td>
+                <td>{{ att.check_in_time }}</td>
+                <td>{{ att.check_out_time }}</td>
+                <td>{{ att.duration }}</td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="4" class="text-center text-muted">No attendance records found.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

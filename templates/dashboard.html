@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard | LokNetra{% endblock %}
+{% block content %}
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="alert alert-primary d-flex align-items-center" role="alert">
+      <i class="fas fa-user-shield fa-2x me-3"></i>
+      <div>
+        Welcome, <strong>{{ user.username }}</strong>!<br>
+        This is your Workforce Attendance & Safety Dashboard.
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row g-4 mb-4">
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body text-center">
+        <i class="fas fa-users fa-2x text-primary mb-2"></i>
+        <h5 class="card-title">Total Employees</h5>
+        <h2>{{ total_employees|default:'--' }}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body text-center">
+        <i class="fas fa-calendar-check fa-2x text-success mb-2"></i>
+        <h5 class="card-title">Today's Attendance</h5>
+        <h2>{{ todays_attendance|default:'--' }}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body text-center">
+        <i class="fas fa-exclamation-triangle fa-2x text-danger mb-2"></i>
+        <h5 class="card-title">Safety Alerts</h5>
+        <h2>{{ safety_alerts|default:'0' }}</h2>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row g-4">
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-history me-2"></i>Recent Attendance Activity
+      </div>
+      <div class="card-body">
+        {% if recent_attendance %}
+          <ul class="list-group list-group-flush">
+            {% for entry in recent_attendance %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ entry.employee_name }}
+                <span class="badge bg-success">{{ entry.time }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="text-muted">No recent attendance records.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header bg-danger text-white">
+        <i class="fas fa-shield-alt me-2"></i>Safety Alerts (Last 24h)
+      </div>
+      <div class="card-body">
+        {% if recent_safety_alerts %}
+          <ul class="list-group list-group-flush">
+            {% for alert in recent_safety_alerts %}
+              <li class="list-group-item">
+                <i class="fas fa-exclamation-circle text-danger me-2"></i>{{ alert.message }}
+                <span class="badge bg-secondary float-end">{{ alert.time }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="text-muted">No safety alerts in the last 24 hours.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 

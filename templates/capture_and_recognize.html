@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% block title %}Face Recognition Attendance{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-camera"></i> Face Recognition Attendance System
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="fas fa-info-circle fa-2x me-3"></i>
+                        <div>
+                            <strong>Performance Optimized!</strong><br>
+                            The system has been optimized for better performance with:
+                            <ul class="mb-0 mt-2">
+                                <li>✅ Intelligent frame skipping (processes every 3rd frame)</li>
+                                <li>✅ Face data caching (5-minute cache validity)</li>
+                                <li>✅ Recognition cooldown (5-second intervals)</li>
+                                <li>✅ Optimized camera settings (640x480, 30 FPS)</li>
+                                <li>✅ Reduced database queries</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card border-success">
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="mb-0"><i class="fas fa-play"></i> Start Recognition</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        Click the button below to start the face recognition system. 
+                                        The system will automatically detect and recognize employees for attendance marking.
+                                    </p>
+                                    <a href="{% url 'capture_and_recognize' %}" class="btn btn-success btn-lg">
+                                        <i class="fas fa-camera"></i> Start Face Recognition
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="mb-0"><i class="fas fa-cog"></i> System Status</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="text-center">
+                                                <i class="fas fa-microchip fa-3x text-success"></i>
+                                                <h6 class="mt-2">Performance</h6>
+                                                <small class="text-muted">Optimized</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-center">
+                                                <i class="fas fa-users fa-3x text-primary"></i>
+                                                <h6 class="mt-2">Employees</h6>
+                                                <small class="text-muted">Registered</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="text-center">
+                                                <i class="fas fa-video fa-3x text-warning"></i>
+                                                <h6 class="mt-2">Cameras</h6>
+                                                <small class="text-muted">Configured</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-center">
+                                                <i class="fas fa-clock fa-3x text-info"></i>
+                                                <h6 class="mt-2">Real-time</h6>
+                                                <small class="text-muted">Monitoring</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card border-warning">
+                                <div class="card-header bg-warning text-dark">
+                                    <h5 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Instructions</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="text-center mb-3">
+                                                <i class="fas fa-user-check fa-2x text-success"></i>
+                                                <h6 class="mt-2">Step 1</h6>
+                                                <p class="small">Position yourself in front of the camera</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="text-center mb-3">
+                                                <i class="fas fa-smile fa-2x text-primary"></i>
+                                                <h6 class="mt-2">Step 2</h6>
+                                                <p class="small">Look directly at the camera for recognition</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="text-center mb-3">
+                                                <i class="fas fa-check-circle fa-2x text-success"></i>
+                                                <h6 class="mt-2">Step 3</h6>
+                                                <p class="small">Wait for attendance confirmation</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-warning">
+                                        <strong>Note:</strong> The system will automatically mark attendance when a recognized employee is detected. 
+                                        Press 'Q' in the camera window to stop the recognition process.
+                                    </div>
+                                    
+                                    <div class="alert alert-info">
+                                        <strong>Troubleshooting:</strong> If you experience camera issues:
+                                        <ul class="mb-0 mt-2">
+                                            <li>Ensure your camera is not being used by another application</li>
+                                            <li>Try restarting the application if camera fails to initialize</li>
+                                            <li>Check camera permissions in your browser/system settings</li>
+                                            <li>For Windows users, the system will try multiple camera backends automatically</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="alert alert-success">
+                                        <strong>Real-time Feedback:</strong> When you start face recognition:
+                                        <ul class="mb-0 mt-2">
+                                            <li>✅ Green box around face = Recognized employee</li>
+                                            <li>✅ Green text = Check-in/Check-out successful</li>
+                                            <li>✅ Sound notification = Attendance marked</li>
+                                            <li>❌ Red box = Unknown person</li>
+                                            <li>Press 'Q' or 'ESC' to close camera windows</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="alert alert-info">
+                                        <strong>Performance Optimizations:</strong>
+                                        <ul class="mb-0 mt-2">
+                                            <li>🚀 Frame skipping (processes every 5th frame)</li>
+                                            <li>🚀 Face detection throttling (0.5 second intervals)</li>
+                                            <li>🚀 Optimized MTCNN settings (min_face_size=60)</li>
+                                            <li>🚀 Reduced CPU usage for better performance</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

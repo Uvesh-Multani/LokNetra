@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}LokNetra{% endblock %}
+{% block content %}
+<div class="row justify-content-center mb-4">
+  <div class="col-lg-8">
+    <div class="alert alert-primary d-flex align-items-center" role="alert">
+      <i class="fas fa-robot fa-2x me-3"></i>
+      <div>
+        <strong>Welcome to the Workforce Attendance & Safety Monitoring System!</strong><br>
+        Register employees, manage attendance, and integrate AI for seamless recognition.
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row g-4 justify-content-center">
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body text-center">
+        <i class="fas fa-tachometer-alt fa-3x text-primary mb-3"></i>
+        <h5 class="card-title">AI Dashboard</h5>
+        <p class="card-text">View real-time stats and AI-powered insights.</p>
+        <a href="{% url 'dashboard' %}" class="btn btn-primary">Go to Dashboard</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body text-center">
+        <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+        <h5 class="card-title">Employee Registration</h5>
+        <p class="card-text">Register new employees with face data.</p>
+        <a href="{% url 'register_employee' %}" class="btn btn-primary">Register Employee</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body text-center">
+        <i class="fas fa-users fa-3x text-primary mb-3"></i>
+        <h5 class="card-title">View Employees</h5>
+        <p class="card-text">Browse and manage all registered employees.</p>
+        <a href="{% url 'employee-list' %}" class="btn btn-primary">View Employees</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body text-center">
+        <i class="fas fa-user-check fa-3x text-primary mb-3"></i>
+        <h5 class="card-title">Mark Attendance</h5>
+        <p class="card-text">Capture and recognize employee attendance.</p>
+        <a href="{% url 'capture_and_recognize' %}" class="btn btn-primary">Mark Attendance</a>
+      </div>
+    </div>
+                </div>
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body text-center">
+        <i class="fas fa-calendar-check fa-3x text-primary mb-3"></i>
+        <h5 class="card-title">Attendance Details</h5>
+        <p class="card-text">View and export detailed attendance records.</p>
+        <a href="{% url 'emp_attendance_list' %}" class="btn btn-primary">Attendance Details</a>
+                </div>
+                </div>
+                </div>
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body text-center">
+        <i class="fas fa-video fa-3x text-primary mb-3"></i>
+        <h5 class="card-title">Camera Configuration</h5>
+        <p class="card-text">Manage and configure camera sources.</p>
+        <a href="{% url 'camera_config_list' %}" class="btn btn-primary">Configure Camera</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
