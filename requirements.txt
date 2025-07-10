@@ -13,7 +13,7 @@ mpmath
 networkx
 numpy
 opencv-python
-pillow
+Pillow==9.5.0
 pygame
 requests
 sqlparse
