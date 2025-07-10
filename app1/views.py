@@ -32,9 +32,20 @@ _employee_cache = {}
 _cache_timestamp = None
 _cache_validity = 300  # 5 minutes cache validity
 
-# Initialize MTCNN and InceptionResnetV1
-mtcnn = MTCNN(keep_all=True, device='cpu', min_face_size=60)  # Optimize for performance
-resnet = InceptionResnetV1(pretrained='vggface2').eval()
+# Initialize MTCNN and InceptionResnetV1 to None for lazy loading
+mtcnn = None
+resnet = None
+
+def get_models():
+    """Lazy load the MTCNN and InceptionResnetV1 models."""
+    global mtcnn, resnet
+    if mtcnn is None:
+        print("Loading MTCNN model...")
+        mtcnn = MTCNN(keep_all=True, device='cpu', min_face_size=60)
+    if resnet is None:
+        print("Loading InceptionResnetV1 model...")
+        resnet = InceptionResnetV1(pretrained='vggface2').eval()
+    return mtcnn, resnet
 
 def get_cached_face_data():
     """Get cached face encodings and employee data with automatic refresh"""
@@ -115,6 +126,7 @@ def test_camera(camera_source):
 
 # Function to detect and encode faces
 def detect_and_encode(image):
+    mtcnn, resnet = get_models()  # Lazy load models
     try:
         with torch.no_grad():
             detection_result = mtcnn.detect(image)
@@ -232,6 +244,13 @@ def capture_and_recognize(request):
     camera_threads = []  # List to store threads for each camera
     camera_windows = []  # List to store window names
     error_messages = []  # List to capture errors from threads
+
+    # Lazy load models before starting threads
+    try:
+        get_models()
+    except Exception as e:
+        messages.error(request, f"Failed to load face recognition models: {e}")
+        return redirect('dashboard') # Or some other appropriate page
 
     def process_frame(cam_config, stop_event):
         """Thread function to capture and process frames for each camera."""
