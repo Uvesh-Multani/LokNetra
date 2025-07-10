@@ -25,3 +25,4 @@ typing_extensions==4.13.0
 tzdata==2024.2
 urllib3==2.2.0
 gunicorn==22.0.0
+openpyxl==3.1.2

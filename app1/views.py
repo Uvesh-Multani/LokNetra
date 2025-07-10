@@ -9,7 +9,6 @@ from .models import Employee, Attendance, CameraConfiguration
 from django.core.files.base import ContentFile
 from datetime import datetime, timedelta
 from django.utils import timezone
-import pygame  # Import pygame for playing sounds
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -322,10 +321,6 @@ def capture_and_recognize(request):
 
             threshold = cam_config.threshold
 
-            # Initialize pygame mixer for sound playback
-            pygame.mixer.init()
-            success_sound = pygame.mixer.Sound('app1/suc.wav')  # Load sound path
-
             window_name = f'Face Recognition - {cam_config.name}'
             camera_windows.append(window_name)  # Track the window name
 
@@ -424,7 +419,7 @@ def capture_and_recognize(request):
                                                             
                                                             if created:
                                                                 attendance.mark_check_in()
-                                                                success_sound.play()
+                                                                
                                                                 print(f"Attendance marked: {name} checked in at {current_django_time}")
                                                                 # Draw background rectangle for better text visibility
                                                                 cv2.rectangle(frame, (40, 30), (400, 80), (0, 0, 0), -1)
@@ -436,7 +431,7 @@ def capture_and_recognize(request):
                                                                     time_diff = current_django_time - attendance.check_in_time
                                                                     if time_diff.total_seconds() > 60:  # 1 minute after check-in
                                                                         attendance.mark_check_out()
-                                                                        success_sound.play()
+                                                                        
                                                                         print(f"Attendance marked: {name} checked out at {current_django_time}")
                                                                         # Draw background rectangle for better text visibility
                                                                         cv2.rectangle(frame, (40, 30), (400, 80), (0, 0, 0), -1)
