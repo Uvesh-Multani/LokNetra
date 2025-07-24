@@ -1,4 +1,4 @@
-# Tutorial: LokNetra
+# LokNetra
 
 LokNetra is a **Workforce Attendance & Safety Monitoring System** that uses **AI-powered face recognition** to automatically track employee presence. It allows administrators to *register employees*, *configure cameras*, monitor *attendance records*, and view a *dashboard* with key operational insights and potential safety alerts. The system automates the traditionally manual process of marking attendance, enhancing efficiency and accuracy.
 
@@ -29,12 +29,12 @@ flowchart TD
 
 ## Chapters
 
-1. [Face Recognition AI Core](01_face_recognition_ai_core_.md)
-2. [Employee & Attendance Records](02_employee___attendance_records_.md)
-3. [Camera & AI Configuration](03_camera___ai_configuration_.md)
-4. [Application Routing (URLs)](04_application_routing__urls__.md)
-5. [Application Views (Backend Logic)](05_application_views__backend_logic__.md)
-6. [User Interface Templates](06_user_interface_templates_.md)
+1. [Face Recognition AI Core](#Chapter-1-Face-Recognition-AI-Core)
+2. [Employee & Attendance Records](#Chapter-2-Employee--Attendance-Records)
+3. [Camera & AI Configuration](#Chapter-3-Camera--AI-Configuration)
+4. [Application Routing (URLs)](#Chapter-4-Application-Routing-(URLs))
+5. [Application Views (Backend Logic)](#Chapter-5-Application-Views-(Backend-Logic))
+6. [User Interface Templates](#Chapter-6-User-Interface-Templates)
 
 ---
 
@@ -261,7 +261,6 @@ In this chapter, we explored the heart of LokNetra: the **Face Recognition AI Co
 
 Understanding this core is vital, as the rest of the system builds upon its ability to identify individuals. In the next chapter, we'll shift our focus to how LokNetra manages the actual employee and attendance records.
 
-[Next Chapter: Employee & Attendance Records](02_employee___attendance_records_.md)
 
 ---
 
@@ -314,7 +313,7 @@ Once you submit the form, LokNetra saves this new employee's information into it
 
 #### 2. Tracking Attendance
 
-Once an employee is registered, the system can begin tracking their attendance using the AI Core we discussed in [Chapter 1: Face Recognition AI Core](01_face_recognition_ai_core_.md).
+Once an employee is registered, the system can begin tracking their attendance using the AI Core we discussed in [Chapter 1: Face Recognition AI Core](#Chapter-1-Face-Recognition-AI-Core).
 
 Imagine Alice walks in front of the camera. The AI Core identifies her. What happens next is that LokNetra creates or updates an `Attendance` record for Alice for today's date.
 
@@ -475,13 +474,13 @@ This code from `app1/admin.py` registers our `Employee` and `Attendance` bluepri
 
 In this chapter, we unpacked the essential data pieces of LokNetra: **Employee & Attendance Records**. We learned that the `Employee` record acts as a digital ID card, storing who everyone is, while the `Attendance` record works like a timecard, logging when they're present. These two components are the backbone of the system's ability to keep track of your workforce. We also saw how these records are defined in the code using "models" and how they are displayed and managed.
 
-With the AI brain knowing *who* everyone is ([Chapter 1: Face Recognition AI Core](01_face_recognition_ai_core_.md)) and a robust system for *storing* that "who" and "when," LokNetra is really taking shape! In the next chapter, we'll look at how to set up the cameras and configure the AI for your specific environment.
+With the AI brain knowing *who* everyone is ([Chapter 1: Face Recognition AI Core](#Chapter-1-Face-Recognition-AI-Core)) and a robust system for *storing* that "who" and "when," LokNetra is really taking shape! In the next chapter, we'll look at how to set up the cameras and configure the AI for your specific environment.
 
 ---
 
 # Chapter 3: Camera & AI Configuration
 
-Welcome back, future LokNetra expert! In [Chapter 1: Face Recognition AI Core](01_face_recognition_ai_core_.md), we learned about the "brain" that recognizes faces, and in [Chapter 2: Employee & Attendance Records](02_employee___attendance_records_.md), we saw how LokNetra keeps track of *who* is in the system and *when* they arrived.
+Welcome back, future LokNetra expert! In [Chapter 1: Face Recognition AI Core](#Chapter-1-Face-Recognition-AI-Core), we learned about the "brain" that recognizes faces, and in [Chapter 2: Employee & Attendance Records](#Chapter-2-Employee--Attendance-Records), we saw how LokNetra keeps track of *who* is in the system and *when* they arrived.
 
 But how does LokNetra know *which* camera to look through? And how do we tell its intelligent "brain" how accurately a face needs to match before it says, "Yes, that's Alice!"?
 
@@ -542,7 +541,7 @@ Choosing the right threshold depends on your environment and desired accuracy.
 
 #### 2. Using the Configuration for Face Recognition
 
-Once a camera configuration is saved, when you click "Start Face Recognition" (as seen in [Chapter 1](01_face_recognition_ai_core_.md)), LokNetra uses these saved settings. It will open the camera at the specified `camera_source` and apply the `threshold` you set to decide if a face is a match.
+Once a camera configuration is saved, when you click "Start Face Recognition" (as seen in [Chapter 1](#Chapter-1-Face-Recognition-AI-Core)), LokNetra uses these saved settings. It will open the camera at the specified `camera_source` and apply the `threshold` you set to decide if a face is a match.
 
 Here's how camera configurations are typically displayed:
 
@@ -727,7 +726,7 @@ Now that LokNetra knows *who* is who, *when* they are present, and *where* to lo
 
 # Chapter 4: Application Routing (URLs)
 
-Welcome back, future LokNetra expert! In [Chapter 1: Face Recognition AI Core](01_face_recognition_ai_core_.md), we explored the intelligent "brain" of LokNetra. In [Chapter 2: Employee & Attendance Records](02_employee___attendance_records_.md), we learned how the system stores information about employees and their attendance. And in [Chapter 3: Camera & AI Configuration](03_camera___ai_configuration_.md), we set up the "eyes" and fine-tuned the AI's strictness.
+Welcome back, future LokNetra expert! In [Chapter 1: Face Recognition AI Core](#Chapter-1-Face-Recognition-AI-Core), we explored the intelligent "brain" of LokNetra. In [Chapter 2: Employee & Attendance Records](#Chapter-2-Employee--Attendance-Records), we learned how the system stores information about employees and their attendance. And in [Chapter 3: Camera & AI Configuration](#Chapter-3-Camera--AI-Configuration), we set up the "eyes" and fine-tuned the AI's strictness.
 
 Now, imagine you've built a multi-room house with a kitchen, a bedroom, a living room, and a bathroom. Each room has a different purpose. But how do you know which door leads to which room? How do visitors find their way around?
 
@@ -874,7 +873,7 @@ Now that LokNetra knows *where* to send incoming requests, the next logical step
 
 # Chapter 5: Application Views (Backend Logic)
 
-Welcome back, future LokNetra expert! In [Chapter 1: Face Recognition AI Core](01_face_recognition_ai_core_.md), we learned about the intelligent "brain" of LokNetra. In [Chapter 2: Employee & Attendance Records](02_employee___attendance_records_.md), we learned how the system stores information about employees and their attendance. In [Chapter 3: Camera & AI Configuration](03_camera___ai_configuration_.md), we set up the "eyes" and fine-tuned the AI's strictness. And in [Chapter 4: Application Routing (URLs)](04_application_routing__urls__.md), we discovered how LokNetra's "navigation system" directs web requests to the correct place.
+Welcome back, future LokNetra expert! In [Chapter 1: Face Recognition AI Core](#Chapter-1-Face-Recognition-AI-Core), we learned about the intelligent "brain" of LokNetra. In [Chapter 2: Employee & Attendance Records](#Chapter-2-Employee--Attendance-Records), we learned how the system stores information about employees and their attendance. In [Chapter 3: Camera & AI Configuration](#Chapter-3-Camera--AI-Configuration), we set up the "eyes" and fine-tuned the AI's strictness. And in [Chapter 4: Application Routing (URLs)](#Chapter-4-Application-Routing-(URLs)), we discovered how LokNetra's "navigation system" directs web requests to the correct place.
 
 Now, imagine you've found the right door in our web application building thanks to the routing system. What happens *behind* that door? What's the actual work being done to prepare the page you see or to handle your actions?
 
@@ -920,7 +919,7 @@ You, the user, want to see a list of all employees. You might click a "View Empl
 <a href="{% url 'employee-list' %}" class="btn btn-primary">View Employees</a>
 ```
 
-As we learned in [Chapter 4: Application Routing (URLs)](04_application_routing__urls__.md), `{% url 'employee-list' %}` tells LokNetra to find the correct web address for the 'employee-list' page. Your browser then sends a request to that address (e.g., `/employee_list/`).
+As we learned in [Chapter 4: Application Routing (URLs)](#Chapter-4-Application-Routing-(URLs)), `{% url 'employee-list' %}` tells LokNetra to find the correct web address for the 'employee-list' page. Your browser then sends a request to that address (e.g., `/employee_list/`).
 
 #### 2. The View Function Takes Over
 
@@ -986,7 +985,7 @@ def employee_list(request):
 
 **Explanation:**
 *   `def employee_list(request):`: Every view function takes a `request` object as its first input. This object holds all details about the incoming web request (e.g., who sent it, what data they sent, etc.).
-*   `from .models import Employee`: To talk to our database and get employee data, we need to import the `Employee` blueprint we defined in [Chapter 2: Employee & Attendance Records](02_employee___attendance_records_.md).
+*   `from .models import Employee`: To talk to our database and get employee data, we need to import the `Employee` blueprint we defined in [Chapter 2: Employee & Attendance Records](#Chapter-2-Employee--Attendance-Records).
 *   `employees_qs = Employee.objects.all()`: This is how the view function "talks" to the database. `Employee.objects.all()` is a simple command that asks the database for *all* the records in the `Employee` table.
 *   The `for` loop and `employees.append(...)` lines are just preparing the data in a neat way so it's easy for the HTML template to use.
 *   `return render(request, 'employee_list.html', {'employees': employees})`: This is the crucial step where the view function creates the "response." `render` is a Django helper that combines the `request`, an HTML file (`employee_list.html`), and the `employees` data we prepared. It generates a complete HTML page, which is then sent back to your browser to be displayed.
@@ -1044,7 +1043,7 @@ def register_employee(request):
 
 #### 3. Views Interacting with AI and Cameras (`capture_and_recognize` View)
 
-Some views, like `capture_and_recognize` (also in `app1/views.py`), are more complex. They orchestrate interaction with other modules, like our AI Core (from [Chapter 1: Face Recognition AI Core](01_face_recognition_ai_core_.md)) and camera configurations (from [Chapter 3: Camera & AI Configuration](03_camera___ai_configuration_.md)).
+Some views, like `capture_and_recognize` (also in `app1/views.py`), are more complex. They orchestrate interaction with other modules, like our AI Core (from [Chapter 1: Face Recognition AI Core](#Chapter-1-Face-Recognition-AI-Core)) and camera configurations (from [Chapter 3: Camera & AI Configuration](#Chapter-3-Camera--AI-Configuration)).
 
 While the code for `capture_and_recognize` is quite long, the view's job remains the same:
 1.  **Receive a request** (when you click "Start Face Recognition").
@@ -1068,7 +1067,7 @@ Now that we understand how the backend logic works, the final piece of the puzzl
 
 # Chapter 6: User Interface Templates
 
-Welcome back, future LokNetra expert! In [Chapter 1: Face Recognition AI Core](01_face_recognition_ai_core_.md), we learned about the intelligent "brain." In [Chapter 2: Employee & Attendance Records](02_employee___attendance_records_.md), we learned how the system stores information. In [Chapter 3: Camera & AI Configuration](03_camera___ai_configuration_.md), we set up the "eyes." In [Chapter 4: Application Routing (URLs)](04_application_routing__urls__.md), we discovered the "navigation system." And in [Chapter 5: Application Views (Backend Logic)](05_application_views__backend_logic_.md), we saw how the "worker functions" (views) prepare the "meal" (data).
+Welcome back, future LokNetra expert! In [Chapter 1: Face Recognition AI Core](#Chapter-1-Face-Recognition-AI-Core), we learned about the intelligent "brain." In [Chapter 2: Employee & Attendance Records](#Chapter-2-Employee--Attendance-Records), we learned how the system stores information. In [Chapter 3: Camera & AI Configuration](#Chapter-3-Camera--AI-Configuration), we set up the "eyes." In [Chapter 4: Application Routing (URLs)](#Chapter-4-Application-Routing-(URLs)), we discovered the "navigation system." And in [Chapter 5: Application Views (Backend Logic)](#Chapter-5-Application-Views-(Backend-Logic)), we saw how the "worker functions" (views) prepare the "meal" (data).
 
 But how does that "meal" get served on a beautiful "plate" in your web browser? How does the raw data from the backend transform into the organized, colorful web pages you see?
 
@@ -1106,7 +1105,7 @@ Let's go back to our use case: **Displaying the list of all registered employees
 
 #### 1. The View Prepares Data
 
-As we saw in [Chapter 5: Application Views (Backend Logic)](05_application_views__backend_logic_.md), the `employee_list` view function fetches all employee records from the database:
+As we saw in [Chapter 5: Application Views (Backend Logic)](#Chapter-5-Application-Views-(Backend-Logic)), the `employee_list` view function fetches all employee records from the database:
 
 ```python
 # File: app1/views.py (Simplified)
