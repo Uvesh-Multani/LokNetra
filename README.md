@@ -32,7 +32,7 @@ flowchart TD
 1. [Face Recognition AI Core](#Chapter-1-Face-Recognition-AI-Core)
 2. [Employee & Attendance Records](#Chapter-2-Employee--Attendance-Records)
 3. [Camera & AI Configuration](#Chapter-3-Camera--AI-Configuration)
-4. [Application Routing (URLs)](#Chapter-4-Application-Routing-(URLs))
+4. [Application Routing (URLs)](#Chapter-4-Application-Routing-URLs)
 5. [Application Views (Backend Logic)](#Chapter-5-Application-Views-(Backend-Logic))
 6. [User Interface Templates](#Chapter-6-User-Interface-Templates)
 
