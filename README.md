@@ -33,7 +33,7 @@ flowchart TD
 2. [Employee & Attendance Records](#Chapter-2-Employee--Attendance-Records)
 3. [Camera & AI Configuration](#Chapter-3-Camera--AI-Configuration)
 4. [Application Routing (URLs)](#Chapter-4-Application-Routing-URLs)
-5. [Application Views (Backend Logic)](#Chapter-5-Application-Views-(Backend-Logic))
+5. [Application Views (Backend Logic)](#Chapter-5-Application-Views-Backend-Logic)
 6. [User Interface Templates](#Chapter-6-User-Interface-Templates)
 
 ---
@@ -266,7 +266,7 @@ Understanding this core is vital, as the rest of the system builds upon its abil
 
 # Chapter 2: Employee & Attendance Records
 
-Welcome back, future LokNetra expert! In [Chapter 1: Face Recognition AI Core](01_face_recognition_ai_core_.md), we learned about the "brain" that recognizes faces. But once the brain identifies someone, where does that information go? How does LokNetra keep track of *who* is in the system and *when* they arrived or left?
+Welcome back, future LokNetra expert! In [Chapter 1: Face Recognition AI Core](#Chapter-1-Face-Recognition-AI-Core), we learned about the "brain" that recognizes faces. But once the brain identifies someone, where does that information go? How does LokNetra keep track of *who* is in the system and *when* they arrived or left?
 
 That's where **Employee & Attendance Records** come in! This chapter is all about how LokNetra stores the basic details of your team members and logs their comings and goings.
 
@@ -873,7 +873,7 @@ Now that LokNetra knows *where* to send incoming requests, the next logical step
 
 # Chapter 5: Application Views (Backend Logic)
 
-Welcome back, future LokNetra expert! In [Chapter 1: Face Recognition AI Core](#Chapter-1-Face-Recognition-AI-Core), we learned about the intelligent "brain" of LokNetra. In [Chapter 2: Employee & Attendance Records](#Chapter-2-Employee--Attendance-Records), we learned how the system stores information about employees and their attendance. In [Chapter 3: Camera & AI Configuration](#Chapter-3-Camera--AI-Configuration), we set up the "eyes" and fine-tuned the AI's strictness. And in [Chapter 4: Application Routing (URLs)](#Chapter-4-Application-Routing-(URLs)), we discovered how LokNetra's "navigation system" directs web requests to the correct place.
+Welcome back, future LokNetra expert! In [Chapter 1: Face Recognition AI Core](#Chapter-1-Face-Recognition-AI-Core), we learned about the intelligent "brain" of LokNetra. In [Chapter 2: Employee & Attendance Records](#Chapter-2-Employee--Attendance-Records), we learned how the system stores information about employees and their attendance. In [Chapter 3: Camera & AI Configuration](#Chapter-3-Camera--AI-Configuration), we set up the "eyes" and fine-tuned the AI's strictness. And in [Chapter 4: Application Routing (URLs)](#Chapter-4-Application-Routing-URLs), we discovered how LokNetra's "navigation system" directs web requests to the correct place.
 
 Now, imagine you've found the right door in our web application building thanks to the routing system. What happens *behind* that door? What's the actual work being done to prepare the page you see or to handle your actions?
 
@@ -919,7 +919,7 @@ You, the user, want to see a list of all employees. You might click a "View Empl
 <a href="{% url 'employee-list' %}" class="btn btn-primary">View Employees</a>
 ```
 
-As we learned in [Chapter 4: Application Routing (URLs)](#Chapter-4-Application-Routing-(URLs)), `{% url 'employee-list' %}` tells LokNetra to find the correct web address for the 'employee-list' page. Your browser then sends a request to that address (e.g., `/employee_list/`).
+As we learned in [Chapter 4: Application Routing (URLs)](#Chapter-4-Application-Routing-URLs), `{% url 'employee-list' %}` tells LokNetra to find the correct web address for the 'employee-list' page. Your browser then sends a request to that address (e.g., `/employee_list/`).
 
 #### 2. The View Function Takes Over
 
@@ -1067,7 +1067,7 @@ Now that we understand how the backend logic works, the final piece of the puzzl
 
 # Chapter 6: User Interface Templates
 
-Welcome back, future LokNetra expert! In [Chapter 1: Face Recognition AI Core](#Chapter-1-Face-Recognition-AI-Core), we learned about the intelligent "brain." In [Chapter 2: Employee & Attendance Records](#Chapter-2-Employee--Attendance-Records), we learned how the system stores information. In [Chapter 3: Camera & AI Configuration](#Chapter-3-Camera--AI-Configuration), we set up the "eyes." In [Chapter 4: Application Routing (URLs)](#Chapter-4-Application-Routing-(URLs)), we discovered the "navigation system." And in [Chapter 5: Application Views (Backend Logic)](#Chapter-5-Application-Views-(Backend-Logic)), we saw how the "worker functions" (views) prepare the "meal" (data).
+Welcome back, future LokNetra expert! In [Chapter 1: Face Recognition AI Core](#Chapter-1-Face-Recognition-AI-Core), we learned about the intelligent "brain." In [Chapter 2: Employee & Attendance Records](#Chapter-2-Employee--Attendance-Records), we learned how the system stores information. In [Chapter 3: Camera & AI Configuration](#Chapter-3-Camera--AI-Configuration), we set up the "eyes." In [Chapter 4: Application Routing (URLs)](#Chapter-4-Application-Routing-URLs), we discovered the "navigation system." And in [Chapter 5: Application Views (Backend Logic)](#Chapter-5-Application-Views-Backend-Logic), we saw how the "worker functions" (views) prepare the "meal" (data).
 
 But how does that "meal" get served on a beautiful "plate" in your web browser? How does the raw data from the backend transform into the organized, colorful web pages you see?
 
@@ -1105,7 +1105,7 @@ Let's go back to our use case: **Displaying the list of all registered employees
 
 #### 1. The View Prepares Data
 
-As we saw in [Chapter 5: Application Views (Backend Logic)](#Chapter-5-Application-Views-(Backend-Logic)), the `employee_list` view function fetches all employee records from the database:
+As we saw in [Chapter 5: Application Views (Backend Logic)](#Chapter-5-Application-Views-Backend-Logic), the `employee_list` view function fetches all employee records from the database:
 
 ```python
 # File: app1/views.py (Simplified)
