@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mark Attendance{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Mark Attendance</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">Center your face in the frame and click "Mark Attendance".</p>
+                    <div id="loading-spinner" style="display: none;" class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p>Processing...</p>
+                    </div>
+                    <div id="camera-container" class="text-center">
+                        <video id="video" width="640" height="480" autoplay playsinline class="img-fluid rounded border"></video>
+                        <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+                    </div>
+                    <div class="text-center mt-3">
+    <button id="checkin-btn" class="btn btn-success btn-lg me-2">Check In</button>
+    <button id="checkout-btn" class="btn btn-warning btn-lg">Check Out</button>
+</div>
+                    <div id="message-container" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    
+    const messageContainer = document.getElementById('message-container');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const cameraContainer = document.getElementById('camera-container');
+
+    async function startCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } });
+            video.srcObject = stream;
+            video.play();
+        } catch (err) {
+            console.error("Error accessing camera: ", err);
+            showMessage('Could not access the camera. Please ensure you have given permission.', 'danger');
+        }
+    }
+
+    // Helper to read CSRF cookie (from Django docs)
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function showMessage(message, type = 'info') {
+        messageContainer.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+    }
+
+    document.getElementById('checkin-btn').addEventListener('click', function() {
+    handleAttendance('check_in');
+});
+document.getElementById('checkout-btn').addEventListener('click', function() {
+    handleAttendance('check_out');
+});
+
+function handleAttendance(action) {
+    loadingSpinner.style.display = 'block';
+        cameraContainer.style.display = 'none';
+        
+        showMessage('Capturing and processing image...', 'info');
+
+        const context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, 640, 480);
+        const imageData = canvas.toDataURL('image/jpeg');
+
+        fetch('/attendance/process/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ 'image_data': imageData, 'action': action })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showMessage(data.message, 'success');
+            } else {
+                showMessage(data.message, 'danger');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showMessage('An unexpected error occurred. Please try again.', 'danger');
+        })
+        .finally(() => {
+            loadingSpinner.style.display = 'none';
+            cameraContainer.style.display = 'block';
+            
+        });
+    }
+
+    startCamera();
+});
+</script>
+{% endblock %}

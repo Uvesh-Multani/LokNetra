@@ -32,9 +32,9 @@
         <td>{{ emp.email }}</td>
         <td>
           <div class="btn-group" role="group">
-            <a href="{% url 'emp-detail' emp.id %}" class="btn btn-sm btn-info" title="View Details"><i class="fas fa-eye"></i></a>
-            <a href="{% url 'emp-authorize' emp.id %}" class="btn btn-sm btn-warning" title="Authorize Employee"><i class="fas fa-key"></i></a>
-            <a href="{% url 'emp-delete' emp.id %}" class="btn btn-sm btn-danger" title="Delete Employee"><i class="fas fa-trash-alt"></i></a>
+            <a href="{% url 'emp_detail' emp.id %}" class="btn btn-sm btn-info" title="View Details"><i class="fas fa-eye"></i></a>
+            <a href="{% url 'emp_authorize' emp.id %}" class="btn btn-sm btn-warning" title="Authorize Employee"><i class="fas fa-key"></i></a>
+            <a href="{% url 'emp_delete' emp.id %}" class="btn btn-sm btn-danger" title="Delete Employee"><i class="fas fa-trash-alt"></i></a>
           </div>
         </td>
       </tr>

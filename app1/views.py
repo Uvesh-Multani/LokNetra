@@ -21,7 +21,8 @@ from django.db import IntegrityError
 from django.contrib.auth.decorators import user_passes_test
 from django.utils.timezone import now
 import csv
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+import json
 from openpyxl import Workbook
 from collections import defaultdict
 import pickle
@@ -224,6 +225,96 @@ def register_employee(request):
 # Success view after capturing student information and image
 def register_success(request):
     return render(request, 'register_success.html')
+
+@login_required
+def mark_attendance_camera(request):
+    """Renders the camera page for marking attendance."""
+    return render(request, 'mark_attendance.html')
+
+@login_required
+def process_attendance(request):
+    """Processes the captured image to mark attendance."""
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            image_data = data.get('image_data')
+            action = data.get('action')
+
+            if not image_data:
+                return JsonResponse({'success': False, 'message': 'No image data received.'})
+
+            # Decode the base64 image
+            header, encoded = image_data.split(',', 1)
+            image_bytes = base64.b64decode(encoded)
+            nparr = np.frombuffer(image_bytes, np.uint8)
+            frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+            
+            if frame is None:
+                 return JsonResponse({'success': False, 'message': 'Could not decode image.'})
+
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+            # Get known faces
+            known_face_encodings, known_face_names, employee_cache = get_cached_face_data()
+
+            if len(known_face_encodings) == 0:
+                return JsonResponse({'success': False, 'message': 'No authorized employees found in the database.'})
+
+            # Detect and encode faces in the captured frame
+            test_encodings = detect_and_encode(frame_rgb)
+
+            if not test_encodings:
+                return JsonResponse({'success': False, 'message': 'No face detected. Please try again.'})
+
+            # Process the first detected face
+            test_encoding = test_encodings[0]
+            
+            # Recognize face
+            distances = np.linalg.norm(known_face_encodings - test_encoding, axis=1)
+            min_distance_idx = np.argmin(distances)
+            
+            threshold = 0.6 
+            if distances[min_distance_idx] < threshold:
+                name = known_face_names[min_distance_idx]
+                
+                # Process attendance
+                if name in employee_cache:
+                    employee = employee_cache[name]
+                    current_django_time = now()
+                    today = current_django_time.date()
+
+                    attendance, created = Attendance.objects.get_or_create(
+                        employee=employee, 
+                        date=today
+                    )
+                    
+                    if action == 'check_in':
+                        if not attendance.check_in_time:
+                            attendance.mark_check_in()
+                            message = f"Welcome, {name}! You have been checked in."
+                        else:
+                            message = f"Hi, {name}. You have already checked in today."
+                    elif action == 'check_out':
+                        if attendance.check_in_time and not attendance.check_out_time:
+                            attendance.mark_check_out()
+                            message = f"Goodbye, {name}! You have been checked out."
+                        elif not attendance.check_in_time:
+                            message = f"Hi, {name}. You need to check in first before checking out."
+                        else:
+                            message = f"Hi, {name}. You have already checked out today."
+                    else:
+                        message = "Invalid action."
+                    return JsonResponse({'success': True, 'message': message})
+                else:
+                    return JsonResponse({'success': False, 'message': 'Recognized face does not correspond to a valid employee.'})
+            else:
+                return JsonResponse({'success': False, 'message': 'Face not recognized. Please try again.'})
+
+        except Exception as e:
+            print(f"Error processing attendance: {e}")
+            return JsonResponse({'success': False, 'message': 'An error occurred during processing.'})
+
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'})
 
 
 #####################################################################
@@ -689,7 +780,7 @@ def emp_delete(request, pk):
         global _cache_timestamp
         _cache_timestamp = None
         messages.success(request, 'Employee deleted successfully.')
-        return redirect('employee-list')  # Redirect to the student list after deletion
+        return redirect('employee_list')  # Redirect to the student list after deletion
     
     return render(request, 'emp_delete_confirm.html', {'emp': emp})
 
